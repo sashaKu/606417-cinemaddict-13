@@ -1,7 +1,7 @@
 # Проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Кузнецов](https://up.htmlacademy.ru/ecmascript/13/user/606417).
-* Наставник: `Неизвестно`.
+* Наставник: [Олег Левшин](https://htmlacademy.ru/profile/id58654).
 
 ---
 
