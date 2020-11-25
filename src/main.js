@@ -52,4 +52,3 @@ const siteFooterElement = document.querySelector(`.footer`);
 const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__statistics`);
 // Статистика в footer
 render(siteStatisticsFooterElement, createStatisticsTemplate(), `beforeend`);
-
