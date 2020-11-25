@@ -5,16 +5,13 @@ import {createMainContentTemplate} from "./view/main-content.js";
 import {createMovieTemplate} from "./view/movie.js";
 import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
 import {createStatisticsTemplate} from "./view/statistics.js";
-
 // Количество фильмов в главном списке
 const MOVIE_COUNT = 5;
 // Количество фильмов в списках "Top rated" и "Most commented"
 const MOVIE_EXTRA_COUNT = 2;
-
 const render = (container, template, place) => {
-    container.insertAdjacentHTML(place, template);
-  };
-
+  container.insertAdjacentHTML(place, template);
+};
 const siteHeaderElement = document.querySelector(`.header`);
 // Звание пользователя
 render(siteHeaderElement, createUserNameTemplate(), `beforeend`);
