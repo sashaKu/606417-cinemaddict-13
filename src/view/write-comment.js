@@ -1,5 +1,7 @@
 export const createWriteCommentTemplate = (comment) => {
+
   const {emoji, alt} = comment;
+
   return `<div class="film-details__add-emoji-label"></div>
 
   <label class="film-details__comment-label">

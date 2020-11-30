@@ -1,5 +1,7 @@
 export const createStatisticsTemplate = (user) => {
+
   const {state, avatar, watched, duration, genre} = user;
+
   return `<section class="statistic">
   <p class="statistic__rank">
     Your rank

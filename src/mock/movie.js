@@ -1,4 +1,5 @@
 import {getRandomInteger} from "../utils.js";
+
 const generateDescription = () => {
   const descriptions = [
     `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
@@ -12,22 +13,30 @@ const generateDescription = () => {
     `Nunc fermentum tortor ac porta dapibus.`, `In rutrum ac purus sit amet tempus.`
   ];
   const randomIndex = getRandomInteger(0, descriptions.length - 1);
+
   return descriptions[randomIndex];
 };
+
 // От 1 до 5 случайных предложений из descriptions[]
 const randomDescription = () => {
   let content = generateDescription() + ` `;
+
   for (let i = 0; i < getRandomInteger(0, 5); i++) {
     content += generateDescription() + ` `;
   }
+
   return content;
 };
+
 // От 0 до 5 комментариев
 const generateComments = () => {
   const count = getRandomInteger(0, 5);
+
   return count;
 };
+
 export const generateMovie = () => {
+
   return {
     title: `The Great Flamarion`,
     subTitle: `The Great Flamarion`,

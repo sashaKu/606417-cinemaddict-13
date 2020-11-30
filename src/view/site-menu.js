@@ -1,5 +1,7 @@
 export const createSiteMenuTemplate = (filter) => {
+
   const {item} = filter;
+
   return `<nav class="main-navigation">
   <div class="main-navigation__items">
     <a href="#all" class="main-navigation__item main-navigation__item--active">${item.title[0]}</a>

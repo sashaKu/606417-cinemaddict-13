@@ -1,4 +1,5 @@
 export const generateUser = () => {
+
   return {
     state: `Movie Buff`,
     avatar: `bitmap@2x.png`,

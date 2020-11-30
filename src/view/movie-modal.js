@@ -1,5 +1,7 @@
 export const createMovieModalTemplate = (movie) => {
+
   const {title, subTitle, rating, age, director, actor, writer, release, runtime, genre, poster, description, comments} = movie;
+
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">

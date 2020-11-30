@@ -1,5 +1,7 @@
 export const createCommentTemplate = (comment) => {
+
   const {emoji, alt, text, autor, date} = comment;
+
   return `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
       <img src="./images/emoji/${emoji}" width="55" height="55" alt="${alt}">

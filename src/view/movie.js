@@ -1,8 +1,11 @@
 export const createMovieTemplate = (movie) => {
+
   const {title, rating, date, runtime, genre, poster, description, comments} = movie;
+
   const lessDescription = description.length > 140
     ? description.substring(0, 139) + `...`
     : description;
+
   return `<article class="film-card">
   <h3 class="film-card__title">${title}</h3>
   <p class="film-card__rating">${rating}</p>

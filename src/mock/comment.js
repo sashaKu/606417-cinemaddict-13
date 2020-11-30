@@ -1,4 +1,5 @@
 export const generateComment = () => {
+
   return {
     emoji: `smile.png`,
     alt: `emoji-smile`,

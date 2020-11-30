@@ -4,6 +4,7 @@ export const FILTERTITLES = [
   `History`,
   `Favorites`
 ];
+
 export const SORTTITLES = [
   `Sort by default`,
   `Sort by date`,
