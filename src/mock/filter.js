@@ -1,14 +1,9 @@
-import {getRandomInteger} from "../utils.js";
 import {FILTERTITLES} from "../const.js";
 
-const countMovies = getRandomInteger(0, 25);
-
-export const generateFilter = () => {
+export const generateFilter = (movieCount) => {
 
   return {
-    item: {
-      title: FILTERTITLES,
-      count: countMovies
-    }
+    name: FILTERTITLES,
+    count: movieCount
   };
 };

@@ -1,6 +1,6 @@
-export const createMovieTemplate = (movie) => {
+export const createMovieTemplate = (movies) => {
 
-  const {title, rating, date, runtime, genre, poster, description, comments} = movie;
+  const {title, rating, date, runtime, genre, poster, description, comments} = movies;
 
   const lessDescription = description.length > 140
     ? description.substring(0, 139) + `...`

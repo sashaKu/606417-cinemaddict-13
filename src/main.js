@@ -13,15 +13,18 @@ import {generateUser} from "./mock/user.js";
 import {generateFilter} from "./mock/filter.js";
 import {generateSort} from "./mock/sort.js";
 import {generateMovie} from "./mock/movie.js";
+import {generateMovieList} from "./mock/movie-list.js";
 import {generateComment} from "./mock/comment.js";
 import {generateStatisticFooter} from "./mock/statistic-footer.js";
 
 const user = generateUser();
-const filter = generateFilter();
+//const filter = generateFilter();
 const sort = generateSort();
+const movieCount = generateMovieList();
 // Количество фильмов в главном списке
-const MOVIE_COUNT = generateFilter().item.count;
-const movie = new Array(MOVIE_COUNT).fill().map(generateMovie);
+const MOVIE_COUNT = generateMovieList();
+const movies = new Array(MOVIE_COUNT).fill().map(generateMovie);
+const filter = generateFilter(MOVIE_COUNT);
 // Количество фильмов в списках "Top rated" и "Most commented"
 const MOVIE_EXTRA_COUNT = 2;
 const comment = generateComment();
@@ -53,9 +56,9 @@ const siteMoviesBoxElement = siteMainElement.querySelector(`.films-list`);
 // Список фильмов
 const siteMoviesListElement = siteMainElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < MOVIE_COUNT; i++) {
+for (let i = 0; i < movies.length; i++) {
   // Карточки фильмов для главного списка
-  render(siteMoviesListElement, createMovieTemplate(movie[i]), `beforeend`);
+  render(siteMoviesListElement, createMovieTemplate(movies[i]), `beforeend`);
 }
 
 // Кнопка "Показать больше"
@@ -68,7 +71,7 @@ const siteTopRatedMoviesListElement = siteTopRatedMoviesBoxElement.querySelector
 
 for (let i = 0; i < MOVIE_EXTRA_COUNT; i++) {
   // Карточки фильмов для списка "Top rated"
-  render(siteTopRatedMoviesListElement, createMovieTemplate(movie[i]), `beforeend`);
+  render(siteTopRatedMoviesListElement, createMovieTemplate(movies[i]), `beforeend`);
 }
 
 // Контейнер с заголовком и списком "Most commented"
@@ -79,7 +82,7 @@ const siteMostCommentedMoviesListElement = siteMostCommentedMoviesBoxElement.que
 
 for (let i = 0; i < MOVIE_EXTRA_COUNT; i++) {
   // Карточки фильмов для списка "Most commented"
-  render(siteMostCommentedMoviesListElement, createMovieTemplate(movie[i]), `beforeend`);
+  render(siteMostCommentedMoviesListElement, createMovieTemplate(movies[i]), `beforeend`);
 }
 
 const siteFooterElement = document.querySelector(`.footer`);
@@ -88,7 +91,7 @@ const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__st
 // Статистика в footer
 render(siteStatisticsFooterElement, createStatisticsFooterTemplate(statisticsFooter), `beforeend`);
 // popap с детальной информацией по фильму
-render(siteBodyElement, createMovieModalTemplate(movie[1]), `beforeend`);
+render(siteBodyElement, createMovieModalTemplate(movies[1]), `beforeend`);
 // комментарии по фильму
 
 const siteCommentElement = siteBodyElement.querySelector(`.film-details__comments-list`);
