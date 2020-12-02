@@ -7,3 +7,9 @@ export const getRandomInteger = (a = 0, b = 1) => {
 
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
+
+export const generateBoolean = () => {
+  const boolean = Boolean(getRandomInteger(0, 1));
+
+  return boolean;
+};

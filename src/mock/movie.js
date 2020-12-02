@@ -1,4 +1,41 @@
-import {getRandomInteger} from "../utils.js";
+import {getRandomInteger, generateBoolean} from "../utils.js";
+import {generateCommentList} from "./comment.js";
+
+const generateName = () => {
+  const name = [
+    {
+      name: `made for each other`,
+      poster: `made-for-each-other.png`
+    },
+    {
+      name: `popeye meets sinbad`,
+      poster: `popeye-meets-sinbad.png`
+    },
+    {
+      name: `sagebrush trail`,
+      poster: `sagebrush-trail.jpg`
+    },
+    {
+      name: `santa claus conquers the martians`,
+      poster: `santa-claus-conquers-the-martians.jpg`
+    },
+    {
+      name: `the dance of life`,
+      poster: `the-dance-of-life.jpg`
+    },
+    {
+      name: `the great flamarion`,
+      poster: `the-great-flamarion.jpg`
+    },
+    {
+      name: `the man with the golden arm`,
+      poster: `the-man-with-the-golden-arm.jpg`
+    }
+  ];
+  const randomIndex = getRandomInteger(0, name.length - 1);
+
+  return name[randomIndex];
+};
 
 const generateDescription = () => {
   const descriptions = [
@@ -28,19 +65,19 @@ const randomDescription = () => {
   return content;
 };
 
-// От 0 до 5 комментариев
-const generateComments = () => {
-  const count = getRandomInteger(0, 5);
-
-  return count;
-};
-
-export const generateMovie = () => {
+export const generateMovie = (id) => {
+  const {name: title} = generateName();
+  const {poster} = generateName();
+  const description = randomDescription();
+  const addToWatchlist = generateBoolean();
+  const alreadyWatched = generateBoolean();
+  const addTofavorites = generateBoolean();
 
   return {
-    title: `The Great Flamarion`,
+    id,
+    title,
     subTitle: `The Great Flamarion`,
-    poster: `santa-claus-conquers-the-martians.jpg`,
+    poster,
     date: 1929,
     director: `Anthony Mann`,
     writer: [`Anne Wigton`, `Heinz Herald`, `Richard Weil`],
@@ -51,10 +88,20 @@ export const generateMovie = () => {
     genre: `Drama`,
     rating: 8.3,
     age: 18,
-    description: randomDescription(),
-    addToWatchlist: false,
-    alreadyWatched: false,
-    addTofavorites: false,
-    comments: generateComments()
+    description,
+    addToWatchlist,
+    alreadyWatched,
+    addTofavorites,
+    comments: generateCommentList()
   };
+};
+
+export const generateMovieList = () => {
+  const moviesList = [];
+
+  for (let i = 1; i < getRandomInteger(10, 20); i++) {
+    moviesList.push(generateMovie(i));
+  }
+
+  return moviesList;
 };

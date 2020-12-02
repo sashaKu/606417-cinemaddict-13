@@ -7,27 +7,23 @@ import {createMovieTemplate} from "./view/movie.js";
 import {createShowMoreButtonTemplate} from "./view/show-more-button.js";
 import {createStatisticsFooterTemplate} from "./view/statistics-footer.js";
 import {createMovieModalTemplate} from "./view/movie-modal.js";
-import {createCommentTemplate} from "./view/comment.js";
 import {createWriteCommentTemplate} from "./view/write-comment.js";
 import {generateUser} from "./mock/user.js";
 import {generateFilter} from "./mock/filter.js";
 import {generateSort} from "./mock/sort.js";
-import {generateMovie} from "./mock/movie.js";
-import {generateMovieList} from "./mock/movie-list.js";
+import {generateMovieList} from "./mock/movie.js";
 import {generateComment} from "./mock/comment.js";
 import {generateStatisticFooter} from "./mock/statistic-footer.js";
 
 const user = generateUser();
 //const filter = generateFilter();
 const sort = generateSort();
-const movieCount = generateMovieList();
+const comment = generateComment();
 // Количество фильмов в главном списке
-const MOVIE_COUNT = generateMovieList();
-const movies = new Array(MOVIE_COUNT).fill().map(generateMovie);
-const filter = generateFilter(MOVIE_COUNT);
+const movies = generateMovieList();
+const filter = generateFilter(movies.length);
 // Количество фильмов в списках "Top rated" и "Most commented"
 const MOVIE_EXTRA_COUNT = 2;
-const comment = generateComment();
 const statisticsFooter = generateStatisticFooter();
 
 const render = (container, template, place) => {
@@ -85,20 +81,14 @@ for (let i = 0; i < MOVIE_EXTRA_COUNT; i++) {
   render(siteMostCommentedMoviesListElement, createMovieTemplate(movies[i]), `beforeend`);
 }
 
-const siteFooterElement = document.querySelector(`.footer`);
-const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__statistics`);
-
-// Статистика в footer
-render(siteStatisticsFooterElement, createStatisticsFooterTemplate(statisticsFooter), `beforeend`);
 // popap с детальной информацией по фильму
 render(siteBodyElement, createMovieModalTemplate(movies[1]), `beforeend`);
-// комментарии по фильму
-
-const siteCommentElement = siteBodyElement.querySelector(`.film-details__comments-list`);
-
-render(siteCommentElement, createCommentTemplate(comment), `beforeend`);
 
 // Написать комментарии к фильму
 const siteWriteCommentElement = siteBodyElement.querySelector(`.film-details__new-comment`);
-
 render(siteWriteCommentElement, createWriteCommentTemplate(comment), `beforeend`);
+
+// Статистика в footer
+const siteFooterElement = document.querySelector(`.footer`);
+const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__statistics`);
+render(siteStatisticsFooterElement, createStatisticsFooterTemplate(statisticsFooter), `beforeend`);
