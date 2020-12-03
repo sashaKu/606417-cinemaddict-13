@@ -102,6 +102,5 @@ export const generateMovieList = () => {
   for (let i = 1; i < getRandomInteger(10, 20); i++) {
     moviesList.push(generateMovie(i));
   }
-
   return moviesList;
 };

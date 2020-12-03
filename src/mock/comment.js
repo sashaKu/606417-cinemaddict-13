@@ -1,24 +1,15 @@
+import {ICONS, EMOJI} from "../const.js";
 import {getRandomInteger} from "../utils.js";
 
 const generateName = () => {
-  const name = [
-    `emoji-smile`,
-    `emoji-sleeping`,
-    `emoji-puke`,
-    `emoji-angry`
-  ];
+  const name = EMOJI;
   const randomIndex = getRandomInteger(0, name.length - 1);
 
   return name[randomIndex];
 };
 
 const generateIcon = () => {
-  const name = [
-    `smile.png`,
-    `sleeping.png`,
-    `puke.png`,
-    `angry.png`
-  ];
+  const name = ICONS;
   const randomIndex = getRandomInteger(0, name.length - 1);
 
   return name[randomIndex];
@@ -42,14 +33,13 @@ const generateDescription = () => {
 };
 
 export const generateComment = (id) => {
-  // const {name: alt} = generateName();
-  // const {name: icon} = generateIcon();
-  // const {descriptions: text} = generateDescription();
 
   return {
     id,
     icon: generateIcon(),
+    icons: ICONS,
     alt: generateName(),
+    alts: EMOJI,
     text: generateDescription(),
     author: `Tim Macoveev`,
     date: `2019/12/31 23:59`

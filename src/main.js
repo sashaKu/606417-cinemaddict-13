@@ -16,12 +16,11 @@ import {generateComment} from "./mock/comment.js";
 import {generateStatisticFooter} from "./mock/statistic-footer.js";
 
 const user = generateUser();
-//const filter = generateFilter();
 const sort = generateSort();
 const comment = generateComment();
 // Количество фильмов в главном списке
 const movies = generateMovieList();
-const filter = generateFilter(movies.length);
+const filter = generateFilter(movies);
 // Количество фильмов в списках "Top rated" и "Most commented"
 const MOVIE_EXTRA_COUNT = 2;
 const statisticsFooter = generateStatisticFooter();

@@ -1,6 +1,6 @@
 export const createWriteCommentTemplate = (comment) => {
 
-  const {icon, alt} = comment;
+  const {icons, alts} = comment;
 
   return `<div class="film-details__add-emoji-label"></div>
 
@@ -11,22 +11,22 @@ export const createWriteCommentTemplate = (comment) => {
   <div class="film-details__emoji-list">
     <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
     <label class="film-details__emoji-label" for="emoji-smile">
-      <img src="./images/emoji/${icon}" width="30" height="30" alt="${alt}">
+      <img src="./images/emoji/${icons[0]}" width="30" height="30" alt="${alts[0]}">
     </label>
 
     <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
     <label class="film-details__emoji-label" for="emoji-sleeping">
-      <img src="./images/emoji/${icon}" width="30" height="30" alt="${alt}">
+      <img src="./images/emoji/${icons[1]}" width="30" height="30" alt="${alts[1]}">
     </label>
 
     <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
     <label class="film-details__emoji-label" for="emoji-puke">
-      <img src="./images/emoji/${icon}" width="30" height="30" alt="${alt}">
+      <img src="./images/emoji/${icons[2]}" width="30" height="30" alt="${alts[2]}">
     </label>
 
     <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
     <label class="film-details__emoji-label" for="emoji-angry">
-      <img src="./images/emoji/${icon}" width="30" height="30" alt="${alt}">
+      <img src="./images/emoji/${icons[3]}" width="30" height="30" alt="${alts[3]}">
     </label>
   </div>`;
 };
