@@ -1,6 +1,6 @@
 export const createMovieTemplate = (movies) => {
 
-  const {title, rating, date, runtime, genre, poster, description, comments} = movies;
+  const {title, rating, date, runtime, genre, poster, description, comments, addToWatchlist, alreadyWatched, addTofavorites} = movies;
 
   const lessDescription = description.length > 140
     ? description.substring(0, 139) + `...`
@@ -18,9 +18,9 @@ export const createMovieTemplate = (movies) => {
   <p class="film-card__description">${lessDescription}</p>
   <a class="film-card__comments">${comments.length} comments</a>
   <div class="film-card__controls">
-    <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
-    <button class="film-card__controls-item button film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
-    <button class="film-card__controls-item button film-card__controls-item--favorite" type="button">Mark as favorite</button>
+    <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist${addToWatchlist ? ` film-card__controls-item--active` : ``}" type="button">Add to watchlist</button>
+    <button class="film-card__controls-item button film-card__controls-item--mark-as-watched${alreadyWatched ? ` film-card__controls-item--active` : ``}" type="button">Mark as watched</button>
+    <button class="film-card__controls-item button film-card__controls-item--favorite${addTofavorites ? ` film-card__controls-item--active` : ``}" type="button">Mark as favorite</button>
   </div>
 </article>`;
 };

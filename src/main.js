@@ -51,13 +51,36 @@ const siteMoviesBoxElement = siteMainElement.querySelector(`.films-list`);
 // Список фильмов
 const siteMoviesListElement = siteMainElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < movies.length; i++) {
-  // Карточки фильмов для главного списка
+const MOVIES_STEP = 5;
+
+render(siteMoviesListElement, createMovieTemplate(movies[0]), `beforeend`);
+
+for (let i = 1; i < Math.min(movies.length, MOVIES_STEP); i++) {
   render(siteMoviesListElement, createMovieTemplate(movies[i]), `beforeend`);
 }
 
-// Кнопка "Показать больше"
-render(siteMoviesBoxElement, createShowMoreButtonTemplate(), `beforeend`);
+if (movies.length > MOVIES_STEP) {
+  let renderedMovieCount = MOVIES_STEP;
+
+  // Кнопка "Показать больше"
+  render(siteMoviesBoxElement, createShowMoreButtonTemplate(), `beforeend`);
+
+  const loadMoreButton = siteMoviesBoxElement.querySelector(`.films-list__show-more`);
+
+  loadMoreButton.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    movies
+      .slice(renderedMovieCount, renderedMovieCount + MOVIES_STEP)
+      .forEach((movies) => render(siteMoviesListElement, createMovieTemplate(movies), `beforeend`));
+
+    renderedMovieCount += MOVIES_STEP;
+
+    if (renderedMovieCount >= movies.length) {
+      loadMoreButton.remove();
+    }
+  });
+}
+
 // Контейнер с заголовком и списком "Top rated"
 
 const siteTopRatedMoviesBoxElement = siteMainElement.querySelector(`.films-list.films-list--extra`);
