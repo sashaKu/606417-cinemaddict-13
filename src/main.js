@@ -22,8 +22,6 @@ const comment = generateComment();
 // Количество фильмов в главном списке
 const movies = generateMovieList();
 const filter = generateFilter(movies);
-// Количество фильмов в списках "Top rated" и "Most commented"
-const MOVIE_EXTRA_COUNT = 2;
 const statisticsFooter = generateStatisticFooter();
 
 const siteBodyElement = document.querySelector(`body`);
@@ -74,28 +72,6 @@ if (movies.length > MOVIES_STEP) {
       loadMoreButton.remove();
     }
   });
-}
-
-// Контейнер с заголовком и списком "Top rated"
-
-const siteTopRatedMoviesBoxElement = siteMainElement.querySelector(`.films-list.films-list--extra`);
-// Список фильмов "Top rated"
-const siteTopRatedMoviesListElement = siteTopRatedMoviesBoxElement.querySelector(`.films-list__container`);
-
-for (let i = 0; i < MOVIE_EXTRA_COUNT; i++) {
-  // Карточки фильмов для списка "Top rated"
-  renderElement(siteTopRatedMoviesListElement, new Movie(movies[i]).getElement(), RenderPosition.BEFOREEND);
-}
-
-// Контейнер с заголовком и списком "Most commented"
-
-const siteMostCommentedMoviesBoxElement = siteMainElement.querySelectorAll(`.films-list.films-list--extra`)[1];
-// Список фильмов "Most commented"
-const siteMostCommentedMoviesListElement = siteMostCommentedMoviesBoxElement.querySelector(`.films-list__container`);
-
-for (let i = 0; i < MOVIE_EXTRA_COUNT; i++) {
-  // Карточки фильмов для списка "Most commented"
-  renderElement(siteMostCommentedMoviesListElement, new Movie(movies[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
 // popap с детальной информацией по фильму
