@@ -1,4 +1,6 @@
-export const createSiteMenuTemplate = (filter) => {
+import {createElement} from "../utils.js";
+
+const createSiteMenuTemplate = (filter) => {
 
   const {name, watchlistCount, historyCount, favoritesCount} = filter;
 
@@ -12,3 +14,29 @@ export const createSiteMenuTemplate = (filter) => {
   <a href="#stats" class="main-navigation__additional">Stats</a>
 </nav>`;
 };
+
+export default class SiteMenu {
+  constructor(filter) {
+    this._filter = filter;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+
+    return createSiteMenuTemplate(this._filter);
+  }
+
+  getElement() {
+
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

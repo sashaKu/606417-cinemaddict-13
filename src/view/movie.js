@@ -1,6 +1,8 @@
-export const createMovieTemplate = (movies) => {
+import {createElement} from "../utils.js";
 
-  const {title, rating, date, runtime, genre, poster, description, comments, addToWatchlist, alreadyWatched, addTofavorites} = movies;
+const createMovieTemplate = (movie) => {
+
+  const {title, rating, date, runtime, genre, poster, description, comments, addToWatchlist, alreadyWatched, addTofavorites} = movie;
 
   const lessDescription = description.length > 140
     ? description.substring(0, 139) + `...`
@@ -24,3 +26,38 @@ export const createMovieTemplate = (movies) => {
   </div>
 </article>`;
 };
+
+export default class Movie {
+  constructor(movie) {
+    this._element = null;
+    this.title = movie.title;
+    this.rating = movie.rating;
+    this.date = movie.date;
+    this.runtime = movie.runtime;
+    this.genre = movie.genre;
+    this.poster = movie.poster;
+    this.description = movie.description;
+    this.comments = movie.comments;
+    this.addToWatchlist = movie.addToWatchlist;
+    this.alreadyWatched = movie.alreadyWatched;
+    this.addTofavorites = movie.addTofavorites;
+  }
+
+  getTemplate() {
+
+    return createMovieTemplate(this);
+  }
+
+  getElement() {
+
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
