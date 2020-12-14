@@ -48,8 +48,32 @@ const siteMoviesListElement = siteMainElement.querySelector(`.films-list__contai
 
 const MOVIES_STEP = 5;
 
-for (let i = 1; i < Math.min(movies.length, MOVIES_STEP); i++) {
-  renderElement(siteMoviesListElement, new Movie(movies[i]).getElement(), RenderPosition.BEFOREEND);
+// popap с детальной информацией по фильму
+const renderModal = (movieListElement, movie) => {
+  const movieComponent = new MovieModal(movie);
+  const movieListComponent = new Movie(movie);
+
+  const replaceModalToList = () => {
+    movieListElement.replaceChild(movieListComponent.getElement(), movieComponent.getElement());
+  };
+
+  const replaceListToModal = () => {
+    movieListElement.replaceChild(movieComponent.getElement(), movieListComponent.getElement());
+  };
+
+  movieListComponent.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+    replaceListToModal();
+  });
+
+  movieComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+    replaceModalToList();
+  });
+
+  renderElement(movieListElement, movieComponent.getElement(), RenderPosition.BEFOREEND);
+};
+
+for (let i = 0; i < Math.min(movies.length, MOVIES_STEP); i++) {
+  renderModal(siteMoviesListElement, movies[i]);
 }
 
 if (movies.length > MOVIES_STEP) {
@@ -73,9 +97,6 @@ if (movies.length > MOVIES_STEP) {
     }
   });
 }
-
-// popap с детальной информацией по фильму
-renderElement(siteBodyElement, new MovieModal(movies[1]).getElement(), RenderPosition.BEFOREEND);
 
 // Написать комментарии к фильму
 const siteWriteCommentElement = siteBodyElement.querySelector(`.film-details__new-comment`);
