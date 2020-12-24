@@ -44,36 +44,33 @@ renderElement(siteMainElement, new MainContent().getElement(), RenderPosition.BE
 
 const siteMoviesBoxElement = siteMainElement.querySelector(`.films-list`);
 // Список фильмов
-const siteMoviesListElement = siteMainElement.querySelector(`.films-list__container`);
+const moviesListContainer = siteMainElement.querySelector(`.films-list__container`);
 
 const MOVIES_STEP = 5;
 
 // popap с детальной информацией по фильму
-const renderModal = (movieListElement, movie) => {
-  const movieComponent = new MovieModal(movie);
-  const movieListComponent = new Movie(movie);
+const renderMovieCard = (moviesContainer, movie) => {
+  const movieCard = new Movie(movie);
+  const movieModal = new MovieModal(movie);
 
-  const replaceModalToList = () => {
-    movieListElement.replaceChild(movieListComponent.getElement(), movieComponent.getElement());
-  };
-
-  const replaceListToModal = () => {
-    movieListElement.replaceChild(movieComponent.getElement(), movieListComponent.getElement());
-  };
-
-  movieListComponent.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
-    replaceListToModal();
+  movieModal.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+    siteBodyElement.removeChild(movieModal.getElement());
+    siteBodyElement.classList.remove(`hide-overflow`);
   });
 
-  movieComponent.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
-    replaceModalToList();
+  movieCard.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+    siteBodyElement.appendChild(movieModal.getElement());
+    siteBodyElement.classList.add(`hide-overflow`);
+    // Написать комментарии к фильму
+    const siteWriteCommentElement = siteBodyElement.querySelector(`.film-details__new-comment`);
+    renderElement(siteWriteCommentElement, new WriteComment(comment).getElement(), RenderPosition.BEFOREEND);
   });
 
-  renderElement(movieListElement, movieComponent.getElement(), RenderPosition.BEFOREEND);
+  renderElement(moviesContainer, movieCard.getElement(), RenderPosition.BEFOREEND);
 };
 
 for (let i = 0; i < Math.min(movies.length, MOVIES_STEP); i++) {
-  renderModal(siteMoviesListElement, movies[i]);
+  renderMovieCard(moviesListContainer, movies[i]);
 }
 
 if (movies.length > MOVIES_STEP) {
@@ -88,7 +85,7 @@ if (movies.length > MOVIES_STEP) {
     evt.preventDefault();
     movies
       .slice(renderTemplateedMovieCount, renderTemplateedMovieCount + MOVIES_STEP)
-      .forEach((movie) => renderElement(siteMoviesListElement, new Movie(movie).getElement(), RenderPosition.BEFOREEND));
+      .forEach((movie) => renderMovieCard(moviesListContainer, movie));
 
     renderTemplateedMovieCount += MOVIES_STEP;
 
@@ -97,10 +94,6 @@ if (movies.length > MOVIES_STEP) {
     }
   });
 }
-
-// Написать комментарии к фильму
-const siteWriteCommentElement = siteBodyElement.querySelector(`.film-details__new-comment`);
-renderElement(siteWriteCommentElement, new WriteComment(comment).getElement(), RenderPosition.BEFOREEND);
 
 // Статистика в footer
 const siteFooterElement = document.querySelector(`.footer`);
