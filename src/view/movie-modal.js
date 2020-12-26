@@ -1,6 +1,24 @@
-import {createCommentTemplate} from './comment';
+import {createElement} from "../utils.js";
 
-export const createMovieModalTemplate = (movie) => {
+const createCommentTemplate = (comments) => {
+  return comments.map(({icon, alt, text, author, date}) => (
+    `<li class="film-details__comment">
+      <span class="film-details__comment-emoji">
+        <img src="./images/emoji/${icon}" width="55" height="55" alt="${alt}">
+      </span>
+      <div>
+        <p class="film-details__comment-text">${text}</p>
+        <p class="film-details__comment-info">
+          <span class="film-details__comment-author">${author}</span>
+          <span class="film-details__comment-day">${date}</span>
+          <button class="film-details__comment-delete">Delete</button>
+        </p>
+      </div>
+    </li>`
+  )).join(``);
+};
+
+const createMovieModalTemplate = (movie) => {
 
   const {title, subTitle, rating, age, director, actor, writer, release, runtime, genre, poster, description, comments} = movie;
 
@@ -95,3 +113,29 @@ export const createMovieModalTemplate = (movie) => {
   </form>
 </section>`;
 };
+
+export default class MovieModal {
+  constructor(movie) {
+    this._movie = movie;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+
+    return createMovieModalTemplate(this._movie);
+  }
+
+  getElement() {
+
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

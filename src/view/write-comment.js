@@ -1,4 +1,6 @@
-export const createWriteCommentTemplate = (comment) => {
+import {createElement} from "../utils.js";
+
+const createWriteCommentTemplate = (comment) => {
 
   const {icons, alts} = comment;
 
@@ -30,3 +32,30 @@ export const createWriteCommentTemplate = (comment) => {
     </label>
   </div>`;
 };
+
+export default class WriteComment {
+  constructor(comment) {
+    this._comment = comment;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+
+    return createWriteCommentTemplate(this._comment);
+  }
+
+  getElement() {
+
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
