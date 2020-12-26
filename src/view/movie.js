@@ -29,23 +29,14 @@ const createMovieTemplate = (movie) => {
 
 export default class Movie {
   constructor(movie) {
+    this._movie = movie;
+
     this._element = null;
-    this.title = movie.title;
-    this.rating = movie.rating;
-    this.date = movie.date;
-    this.runtime = movie.runtime;
-    this.genre = movie.genre;
-    this.poster = movie.poster;
-    this.description = movie.description;
-    this.comments = movie.comments;
-    this.addToWatchlist = movie.addToWatchlist;
-    this.alreadyWatched = movie.alreadyWatched;
-    this.addTofavorites = movie.addTofavorites;
   }
 
   getTemplate() {
 
-    return createMovieTemplate(this);
+    return createMovieTemplate(this._movie);
   }
 
   getElement() {
