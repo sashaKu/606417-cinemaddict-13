@@ -52,13 +52,24 @@ const MOVIES_STEP = 5;
 const renderMovieCard = (moviesContainer, movie) => {
   const movieCard = new Movie(movie);
   const movieModal = new MovieModal(movie);
+  // Событие по ESC
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      siteBodyElement.removeChild(movieModal.getElement());
+      siteBodyElement.classList.remove(`hide-overflow`);
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
 
   movieModal.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
     siteBodyElement.removeChild(movieModal.getElement());
     siteBodyElement.classList.remove(`hide-overflow`);
+    document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
   movieCard.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+    document.addEventListener(`keydown`, onEscKeyDown);
     siteBodyElement.appendChild(movieModal.getElement());
     siteBodyElement.classList.add(`hide-overflow`);
     // Написать комментарии к фильму
