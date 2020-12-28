@@ -61,11 +61,14 @@ if (movies.every((movie) => movie.isArchive)) {
   const renderMovieCard = (moviesContainer, movie) => {
     const movieCard = new Movie(movie);
     const movieModal = new MovieModal(movie);
+    const writeComment = new WriteComment(comment);
+
     // Функция для события, сценарий - закрытие модального окна
     const removeAction = () => {
       siteBodyElement.removeChild(movieModal.getElement());
       siteBodyElement.classList.remove(`hide-overflow`);
       document.removeEventListener(`keydown`, onEscKeyDown);
+      siteBodyElement.querySelector(`.film-details__comments-wrap`).removeChild(writeComment.getElement());
     };
     // Событие по ESC
     const onEscKeyDown = (evt) => {
@@ -78,15 +81,12 @@ if (movies.every((movie) => movie.isArchive)) {
     movieModal.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
       removeAction();
     });
-
     movieCard.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
       document.addEventListener(`keydown`, onEscKeyDown);
       siteBodyElement.appendChild(movieModal.getElement());
       siteBodyElement.classList.add(`hide-overflow`);
-
       // Написать комментарии к фильму
-      const siteWriteCommentElement = siteBodyElement.querySelector(`.film-details__comments-wrap`);
-      renderElement(siteWriteCommentElement, new WriteComment(comment).getElement(), RenderPosition.BEFOREEND);
+      siteBodyElement.querySelector(`.film-details__comments-wrap`).appendChild(writeComment.getElement());
     });
 
     renderElement(moviesContainer, movieCard.getElement(), RenderPosition.BEFOREEND);
