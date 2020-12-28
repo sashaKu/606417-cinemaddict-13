@@ -83,8 +83,9 @@ if (movies.every((movie) => movie.isArchive)) {
       document.addEventListener(`keydown`, onEscKeyDown);
       siteBodyElement.appendChild(movieModal.getElement());
       siteBodyElement.classList.add(`hide-overflow`);
+
       // Написать комментарии к фильму
-      const siteWriteCommentElement = siteBodyElement.querySelector(`.film-details__new-comment`);
+      const siteWriteCommentElement = siteBodyElement.querySelector(`.film-details__comments-wrap`);
       renderElement(siteWriteCommentElement, new WriteComment(comment).getElement(), RenderPosition.BEFOREEND);
     });
 
