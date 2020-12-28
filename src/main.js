@@ -61,20 +61,22 @@ if (movies.every((movie) => movie.isArchive)) {
   const renderMovieCard = (moviesContainer, movie) => {
     const movieCard = new Movie(movie);
     const movieModal = new MovieModal(movie);
+    // Функция для события, сценарий - закрытие модального окна
+    const removeAction = () => {
+      siteBodyElement.removeChild(movieModal.getElement());
+      siteBodyElement.classList.remove(`hide-overflow`);
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    };
     // Событие по ESC
     const onEscKeyDown = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
         evt.preventDefault();
-        siteBodyElement.removeChild(movieModal.getElement());
-        siteBodyElement.classList.remove(`hide-overflow`);
-        document.removeEventListener(`keydown`, onEscKeyDown);
+        removeAction();
       }
     };
 
     movieModal.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
-      siteBodyElement.removeChild(movieModal.getElement());
-      siteBodyElement.classList.remove(`hide-overflow`);
-      document.removeEventListener(`keydown`, onEscKeyDown);
+      removeAction();
     });
 
     movieCard.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
