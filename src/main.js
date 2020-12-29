@@ -65,10 +65,10 @@ if (movies.every((movie) => movie.isArchive)) {
 
     // Функция для события, сценарий - закрытие модального окна
     const removeAction = () => {
+      siteBodyElement.querySelector(`.film-details__comments-wrap`).removeChild(writeComment.getElement());
       siteBodyElement.removeChild(movieModal.getElement());
       siteBodyElement.classList.remove(`hide-overflow`);
       document.removeEventListener(`keydown`, onEscKeyDown);
-      siteBodyElement.querySelector(`.film-details__comments-wrap`).removeChild(writeComment.getElement());
     };
     // Событие по ESC
     const onEscKeyDown = (evt) => {
