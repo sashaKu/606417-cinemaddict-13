@@ -4,7 +4,9 @@ const createWriteCommentTemplate = (comment) => {
 
   const {icons, alts} = comment;
 
-  return `<div class="film-details__add-emoji-label"></div>
+  return `<div class="film-details__new-comment">
+
+  <div class="film-details__add-emoji-label"></div>
 
   <label class="film-details__comment-label">
     <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -30,7 +32,9 @@ const createWriteCommentTemplate = (comment) => {
     <label class="film-details__emoji-label" for="emoji-angry">
       <img src="./images/emoji/${icons[3]}" width="30" height="30" alt="${alts[3]}">
     </label>
-  </div>`;
+  </div>
+
+</div>`;
 };
 
 export default class WriteComment {
