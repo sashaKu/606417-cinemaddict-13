@@ -113,7 +113,7 @@ if (movies.every((movie) => movie.isArchive)) {
       renderTemplateedMovieCount += MOVIES_STEP;
 
       if (renderTemplateedMovieCount >= movies.length) {
-        loadMoreButton.remove();
+        loadMoreButton.getElement().remove();
       }
     });
   }
