@@ -7,7 +7,7 @@ export default class Abstract {
     }
 
     this._element = null;
-    this.callback = {};
+    this._callback = {};
   }
 
   getTemplate() {

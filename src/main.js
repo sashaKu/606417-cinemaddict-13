@@ -78,10 +78,10 @@ if (movies.every((movie) => movie.isArchive)) {
       }
     };
 
-    movieModal.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+    movieModal.setClickHandler(() => {
       removeAction();
     });
-    movieCard.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+    movieCard.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
       siteBodyElement.appendChild(movieModal.getElement());
       siteBodyElement.classList.add(`hide-overflow`);
@@ -100,12 +100,12 @@ if (movies.every((movie) => movie.isArchive)) {
     let renderTemplateedMovieCount = MOVIES_STEP;
 
     // Кнопка "Показать больше"
-    renderElement(siteMoviesBoxElement, new ShowMoreButton().getElement(), RenderPosition.BEFOREEND);
+    const loadMoreButton = new ShowMoreButton();
 
-    const loadMoreButton = siteMoviesBoxElement.querySelector(`.films-list__show-more`);
+    renderElement(siteMoviesBoxElement, loadMoreButton.getElement(), RenderPosition.BEFOREEND);
 
-    loadMoreButton.addEventListener(`click`, (evt) => {
-      evt.preventDefault();
+    loadMoreButton.setClickHandler(() => {
+
       movies
         .slice(renderTemplateedMovieCount, renderTemplateedMovieCount + MOVIES_STEP)
         .forEach((movie) => renderMovieCard(moviesListContainer, movie));
@@ -113,7 +113,7 @@ if (movies.every((movie) => movie.isArchive)) {
       renderTemplateedMovieCount += MOVIES_STEP;
 
       if (renderTemplateedMovieCount >= movies.length) {
-        loadMoreButton.remove();
+        loadMoreButton.getElement().remove();
       }
     });
   }
