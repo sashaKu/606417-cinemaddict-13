@@ -1,5 +1,5 @@
 import {ICONS, EMOJI} from "../const.js";
-import {getRandomInteger} from "../utils.js";
+import {getRandomInteger} from "../utils/common.js";
 
 const generateName = () => {
   const name = EMOJI;

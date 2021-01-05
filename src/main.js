@@ -16,7 +16,7 @@ import {generateSort} from "./mock/sort.js";
 import {generateMovieList} from "./mock/movie.js";
 import {generateComment} from "./mock/comment.js";
 import {generateStatisticFooter} from "./mock/statistic-footer.js";
-import {renderElement, RenderPosition} from "./utils.js";
+import {render, RenderPosition} from "./utils/render.js";
 
 const user = generateUser();
 const sort = generateSort();
@@ -30,27 +30,27 @@ const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
 
 // Звание пользователя
-renderElement(siteHeaderElement, new User(user).getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new User(user), RenderPosition.BEFOREEND);
 
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 
 // Меню /Фильтр
-renderElement(siteMainElement, new SiteMenu(filter).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new SiteMenu(filter), RenderPosition.BEFOREEND);
 // Статистика
-renderElement(siteMainElement, new Statistics(user).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new Statistics(user), RenderPosition.BEFOREEND);
 // Сортировка
-renderElement(siteMainElement, new Sort(sort).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new Sort(sort), RenderPosition.BEFOREEND);
 // Контент
-renderElement(siteMainElement, new MainContent().getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new MainContent(), RenderPosition.BEFOREEND);
 
 const siteMoviesBoxElement = siteMainElement.querySelector(`.films`);
 
 if (movies.every((movie) => movie.isArchive)) {
   // Заголовок, когда фильмов нет
-  renderElement(siteMoviesBoxElement, new MovieListEmpty().getElement(), RenderPosition.BEFOREEND);
+  render(siteMoviesBoxElement, new MovieListEmpty(), RenderPosition.BEFOREEND);
 } else {
   // Контейнер с заголовком и списком фильмов
-  renderElement(siteMoviesBoxElement, new MovieList().getElement(), RenderPosition.BEFOREEND);
+  render(siteMoviesBoxElement, new MovieList(), RenderPosition.BEFOREEND);
 
   // Список фильмов
   const moviesListContainer = siteMoviesBoxElement.querySelector(`.films-list__container`);
@@ -89,7 +89,7 @@ if (movies.every((movie) => movie.isArchive)) {
       siteBodyElement.querySelector(`.film-details__comments-wrap`).appendChild(writeComment.getElement());
     });
 
-    renderElement(moviesContainer, movieCard.getElement(), RenderPosition.BEFOREEND);
+    render(moviesContainer, movieCard, RenderPosition.BEFOREEND);
   };
 
   for (let i = 0; i < Math.min(movies.length, MOVIES_STEP); i++) {
@@ -102,7 +102,7 @@ if (movies.every((movie) => movie.isArchive)) {
     // Кнопка "Показать больше"
     const loadMoreButton = new ShowMoreButton();
 
-    renderElement(siteMoviesBoxElement, loadMoreButton.getElement(), RenderPosition.BEFOREEND);
+    render(siteMoviesBoxElement, loadMoreButton, RenderPosition.BEFOREEND);
 
     loadMoreButton.setClickHandler(() => {
 
@@ -113,7 +113,7 @@ if (movies.every((movie) => movie.isArchive)) {
       renderTemplateedMovieCount += MOVIES_STEP;
 
       if (renderTemplateedMovieCount >= movies.length) {
-        loadMoreButton.getElement().remove();
+        loadMoreButton.remove();
       }
     });
   }
@@ -122,4 +122,4 @@ if (movies.every((movie) => movie.isArchive)) {
 // Статистика в footer
 const siteFooterElement = document.querySelector(`.footer`);
 const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__statistics`);
-renderElement(siteStatisticsFooterElement, new StatisticsFooter(statisticsFooter).getElement(), RenderPosition.BEFOREEND);
+render(siteStatisticsFooterElement, new StatisticsFooter(statisticsFooter), RenderPosition.BEFOREEND);

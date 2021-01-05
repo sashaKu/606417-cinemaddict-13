@@ -1,4 +1,4 @@
-import {getRandomInteger, generateBoolean} from "../utils.js";
+import {getRandomInteger, generateBoolean} from "../utils/common.js";
 import {generateCommentList} from "./comment.js";
 
 const generateName = () => {
