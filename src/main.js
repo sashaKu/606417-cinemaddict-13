@@ -1,22 +1,22 @@
-import User from "./view/user.js";
-import SiteMenu from "./view/site-menu.js";
-import Sort from "./view/sort.js";
-import MainContent from "./view/main-content.js";
-import MovieList from "./view/movie-list.js";
-import MovieListEmpty from "./view/movie-list-empty.js";
-import Statistics from "./view/statistics.js";
-import Movie from "./view/movie.js";
-import ShowMoreButton from "./view/show-more-button.js";
-import StatisticsFooter from "./view/statistics-footer.js";
-import MovieModal from "./view/movie-modal.js";
-import WriteComment from "./view/write-comment.js";
+import UserView from "./view/user.js";
+import SiteMenuView from "./view/site-menu.js";
+import SortView from "./view/sort.js";
+import MainContentView from "./view/main-content.js";
+import MovieListView from "./view/movie-list.js";
+import MovieListEmptyView from "./view/movie-list-empty.js";
+import StatisticsView from "./view/statistics.js";
+import MovieView from "./view/movie.js";
+import MoreMoviesButtonView from "./view/show-more-button.js";
+import StatisticsFooterView from "./view/statistics-footer.js";
+import MovieModalView from "./view/movie-modal.js";
+import CommentView from "./view/write-comment.js";
 import {generateUser} from "./mock/user.js";
 import {generateFilter} from "./mock/filter.js";
 import {generateSort} from "./mock/sort.js";
 import {generateMovieList} from "./mock/movie.js";
 import {generateComment} from "./mock/comment.js";
 import {generateStatisticFooter} from "./mock/statistic-footer.js";
-import {renderElement, RenderPosition} from "./utils.js";
+import {render, RenderPosition} from "./utils/render.js";
 
 const user = generateUser();
 const sort = generateSort();
@@ -30,27 +30,27 @@ const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
 
 // Звание пользователя
-renderElement(siteHeaderElement, new User(user).getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new UserView(user), RenderPosition.BEFOREEND);
 
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 
 // Меню /Фильтр
-renderElement(siteMainElement, new SiteMenu(filter).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new SiteMenuView(filter), RenderPosition.BEFOREEND);
 // Статистика
-renderElement(siteMainElement, new Statistics(user).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new StatisticsView(user), RenderPosition.BEFOREEND);
 // Сортировка
-renderElement(siteMainElement, new Sort(sort).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortView(sort), RenderPosition.BEFOREEND);
 // Контент
-renderElement(siteMainElement, new MainContent().getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new MainContentView(), RenderPosition.BEFOREEND);
 
 const siteMoviesBoxElement = siteMainElement.querySelector(`.films`);
 
 if (movies.every((movie) => movie.isArchive)) {
   // Заголовок, когда фильмов нет
-  renderElement(siteMoviesBoxElement, new MovieListEmpty().getElement(), RenderPosition.BEFOREEND);
+  render(siteMoviesBoxElement, new MovieListEmptyView(), RenderPosition.BEFOREEND);
 } else {
   // Контейнер с заголовком и списком фильмов
-  renderElement(siteMoviesBoxElement, new MovieList().getElement(), RenderPosition.BEFOREEND);
+  render(siteMoviesBoxElement, new MovieListView(), RenderPosition.BEFOREEND);
 
   // Список фильмов
   const moviesListContainer = siteMoviesBoxElement.querySelector(`.films-list__container`);
@@ -59,16 +59,16 @@ if (movies.every((movie) => movie.isArchive)) {
 
   // popap с детальной информацией по фильму
   const renderMovieCard = (moviesContainer, movie) => {
-    const movieCard = new Movie(movie);
-    const movieModal = new MovieModal(movie);
-    const writeComment = new WriteComment(comment);
+    const movieCard = new MovieView(movie);
+    const movieModal = new MovieModalView(movie);
+    const writeComment = new CommentView(comment);
 
     // Функция для события, сценарий - закрытие модального окна
     const removeAction = () => {
+      siteBodyElement.querySelector(`.film-details__comments-wrap`).removeChild(writeComment.getElement());
       siteBodyElement.removeChild(movieModal.getElement());
       siteBodyElement.classList.remove(`hide-overflow`);
       document.removeEventListener(`keydown`, onEscKeyDown);
-      siteBodyElement.querySelector(`.film-details__comments-wrap`).removeChild(writeComment.getElement());
     };
     // Событие по ESC
     const onEscKeyDown = (evt) => {
@@ -78,10 +78,10 @@ if (movies.every((movie) => movie.isArchive)) {
       }
     };
 
-    movieModal.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, () => {
+    movieModal.setClickHandler(() => {
       removeAction();
     });
-    movieCard.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, () => {
+    movieCard.setClickHandler(() => {
       document.addEventListener(`keydown`, onEscKeyDown);
       siteBodyElement.appendChild(movieModal.getElement());
       siteBodyElement.classList.add(`hide-overflow`);
@@ -89,7 +89,7 @@ if (movies.every((movie) => movie.isArchive)) {
       siteBodyElement.querySelector(`.film-details__comments-wrap`).appendChild(writeComment.getElement());
     });
 
-    renderElement(moviesContainer, movieCard.getElement(), RenderPosition.BEFOREEND);
+    render(moviesContainer, movieCard, RenderPosition.BEFOREEND);
   };
 
   for (let i = 0; i < Math.min(movies.length, MOVIES_STEP); i++) {
@@ -100,12 +100,12 @@ if (movies.every((movie) => movie.isArchive)) {
     let renderTemplateedMovieCount = MOVIES_STEP;
 
     // Кнопка "Показать больше"
-    renderElement(siteMoviesBoxElement, new ShowMoreButton().getElement(), RenderPosition.BEFOREEND);
+    const loadMoreButton = new MoreMoviesButtonView();
 
-    const loadMoreButton = siteMoviesBoxElement.querySelector(`.films-list__show-more`);
+    render(siteMoviesBoxElement, loadMoreButton, RenderPosition.BEFOREEND);
 
-    loadMoreButton.addEventListener(`click`, (evt) => {
-      evt.preventDefault();
+    loadMoreButton.setClickHandler(() => {
+
       movies
         .slice(renderTemplateedMovieCount, renderTemplateedMovieCount + MOVIES_STEP)
         .forEach((movie) => renderMovieCard(moviesListContainer, movie));
@@ -113,7 +113,7 @@ if (movies.every((movie) => movie.isArchive)) {
       renderTemplateedMovieCount += MOVIES_STEP;
 
       if (renderTemplateedMovieCount >= movies.length) {
-        loadMoreButton.remove();
+        loadMoreButton.getElement().remove();
       }
     });
   }
@@ -122,4 +122,4 @@ if (movies.every((movie) => movie.isArchive)) {
 // Статистика в footer
 const siteFooterElement = document.querySelector(`.footer`);
 const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__statistics`);
-renderElement(siteStatisticsFooterElement, new StatisticsFooter(statisticsFooter).getElement(), RenderPosition.BEFOREEND);
+render(siteStatisticsFooterElement, new StatisticsFooterView(statisticsFooter), RenderPosition.BEFOREEND);

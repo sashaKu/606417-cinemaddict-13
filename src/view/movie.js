@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
 
 const createMovieTemplate = (movie) => {
 
@@ -27,11 +27,12 @@ const createMovieTemplate = (movie) => {
 </article>`;
 };
 
-export default class Movie {
+export default class MovieView extends AbstractView {
   constructor(movie) {
+    super();
     this._movie = movie;
 
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
@@ -39,16 +40,14 @@ export default class Movie {
     return createMovieTemplate(this._movie);
   }
 
-  getElement() {
+  _clickHandler(evt) {
+    evt.preventDefault();
 
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+    this._callback.click();
   }
 
-  removeElement() {
-    this._element = null;
+  setClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._clickHandler);
   }
 }

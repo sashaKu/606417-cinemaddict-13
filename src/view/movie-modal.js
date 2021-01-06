@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import AbstractView from "./abstract.js";
 
 const createCommentTemplate = (comments) => {
   return comments.map(({icon, alt, text, author, date}) => (
@@ -113,11 +113,12 @@ const createMovieModalTemplate = (movie) => {
 </section>`;
 };
 
-export default class MovieModal {
+export default class MovieModalView extends AbstractView {
   constructor(movie) {
+    super();
     this._movie = movie;
 
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
@@ -125,16 +126,14 @@ export default class MovieModal {
     return createMovieModalTemplate(this._movie);
   }
 
-  getElement() {
+  _clickHandler(evt) {
+    evt.preventDefault();
 
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+    this._callback.click();
   }
 
-  removeElement() {
-    this._element = null;
+  setClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
 }
