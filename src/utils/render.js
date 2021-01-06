@@ -1,4 +1,4 @@
-import Abstract from "../view/abstract.js";
+import AbstractView from "../view/abstract.js";
 
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
@@ -7,11 +7,11 @@ export const RenderPosition = {
 
 export const render = (container, child, place) => {
 
-  if (container instanceof Abstract) {
+  if (container instanceof AbstractView) {
     container = container.getElement();
   }
 
-  if (child instanceof Abstract) {
+  if (child instanceof AbstractView) {
     child = child.getElement();
   }
 
@@ -27,7 +27,7 @@ export const render = (container, child, place) => {
 
 export const renderTemplate = (container, template, place) => {
 
-  if (container instanceof Abstract) {
+  if (container instanceof AbstractView) {
     container = container.getElement();
   }
 

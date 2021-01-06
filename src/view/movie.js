@@ -27,7 +27,7 @@ const createMovieTemplate = (movie) => {
 </article>`;
 };
 
-export default class Movie extends AbstractView {
+export default class MovieView extends AbstractView {
   constructor(movie) {
     super();
     this._movie = movie;

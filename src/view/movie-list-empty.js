@@ -7,7 +7,7 @@ const createMovieListEmptyTemplate = () => {
 </section>`;
 };
 
-export default class MovieListEmpty extends AbstractView {
+export default class MovieListEmptyView extends AbstractView {
   getTemplate() {
 
     return createMovieListEmptyTemplate();

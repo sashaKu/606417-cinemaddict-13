@@ -113,7 +113,7 @@ const createMovieModalTemplate = (movie) => {
 </section>`;
 };
 
-export default class MovieModal extends AbstractView {
+export default class MovieModalView extends AbstractView {
   constructor(movie) {
     super();
     this._movie = movie;

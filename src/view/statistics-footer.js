@@ -7,7 +7,7 @@ const createStatisticsFooterTemplate = (statistic) => {
   return `<p>${count} movies inside</p>`;
 };
 
-export default class StatisticsFooter extends AbstractView {
+export default class StatisticsFooterView extends AbstractView {
   constructor(statistic) {
     super();
     this._statistic = statistic;

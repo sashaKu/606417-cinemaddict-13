@@ -52,7 +52,7 @@ const createStatisticsTemplate = (user) => {
 </section>`;
 };
 
-export default class Statistics extends AbstractView {
+export default class StatisticsView extends AbstractView {
   constructor(user) {
     super();
     this._user = user;

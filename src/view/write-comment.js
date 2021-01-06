@@ -37,7 +37,7 @@ const createWriteCommentTemplate = (comment) => {
 </div>`;
 };
 
-export default class WriteComment extends AbstractView {
+export default class CommentView extends AbstractView {
   constructor(comment) {
     super();
     this._comment = comment;

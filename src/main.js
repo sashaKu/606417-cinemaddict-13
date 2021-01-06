@@ -1,15 +1,15 @@
-import User from "./view/user.js";
-import SiteMenu from "./view/site-menu.js";
-import Sort from "./view/sort.js";
-import MainContent from "./view/main-content.js";
-import MovieList from "./view/movie-list.js";
-import MovieListEmpty from "./view/movie-list-empty.js";
-import Statistics from "./view/statistics.js";
-import Movie from "./view/movie.js";
-import ShowMoreButton from "./view/show-more-button.js";
-import StatisticsFooter from "./view/statistics-footer.js";
-import MovieModal from "./view/movie-modal.js";
-import WriteComment from "./view/write-comment.js";
+import UserView from "./view/user.js";
+import SiteMenuView from "./view/site-menu.js";
+import SortView from "./view/sort.js";
+import MainContentView from "./view/main-content.js";
+import MovieListView from "./view/movie-list.js";
+import MovieListEmptyView from "./view/movie-list-empty.js";
+import StatisticsView from "./view/statistics.js";
+import MovieView from "./view/movie.js";
+import MoreMoviesButtonView from "./view/show-more-button.js";
+import StatisticsFooterView from "./view/statistics-footer.js";
+import MovieModalView from "./view/movie-modal.js";
+import CommentView from "./view/write-comment.js";
 import {generateUser} from "./mock/user.js";
 import {generateFilter} from "./mock/filter.js";
 import {generateSort} from "./mock/sort.js";
@@ -30,27 +30,27 @@ const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = siteBodyElement.querySelector(`.header`);
 
 // Звание пользователя
-render(siteHeaderElement, new User(user), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new UserView(user), RenderPosition.BEFOREEND);
 
 const siteMainElement = siteBodyElement.querySelector(`.main`);
 
 // Меню /Фильтр
-render(siteMainElement, new SiteMenu(filter), RenderPosition.BEFOREEND);
+render(siteMainElement, new SiteMenuView(filter), RenderPosition.BEFOREEND);
 // Статистика
-render(siteMainElement, new Statistics(user), RenderPosition.BEFOREEND);
+render(siteMainElement, new StatisticsView(user), RenderPosition.BEFOREEND);
 // Сортировка
-render(siteMainElement, new Sort(sort), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortView(sort), RenderPosition.BEFOREEND);
 // Контент
-render(siteMainElement, new MainContent(), RenderPosition.BEFOREEND);
+render(siteMainElement, new MainContentView(), RenderPosition.BEFOREEND);
 
 const siteMoviesBoxElement = siteMainElement.querySelector(`.films`);
 
 if (movies.every((movie) => movie.isArchive)) {
   // Заголовок, когда фильмов нет
-  render(siteMoviesBoxElement, new MovieListEmpty(), RenderPosition.BEFOREEND);
+  render(siteMoviesBoxElement, new MovieListEmptyView(), RenderPosition.BEFOREEND);
 } else {
   // Контейнер с заголовком и списком фильмов
-  render(siteMoviesBoxElement, new MovieList(), RenderPosition.BEFOREEND);
+  render(siteMoviesBoxElement, new MovieListView(), RenderPosition.BEFOREEND);
 
   // Список фильмов
   const moviesListContainer = siteMoviesBoxElement.querySelector(`.films-list__container`);
@@ -59,9 +59,9 @@ if (movies.every((movie) => movie.isArchive)) {
 
   // popap с детальной информацией по фильму
   const renderMovieCard = (moviesContainer, movie) => {
-    const movieCard = new Movie(movie);
-    const movieModal = new MovieModal(movie);
-    const writeComment = new WriteComment(comment);
+    const movieCard = new MovieView(movie);
+    const movieModal = new MovieModalView(movie);
+    const writeComment = new CommentView(comment);
 
     // Функция для события, сценарий - закрытие модального окна
     const removeAction = () => {
@@ -100,7 +100,7 @@ if (movies.every((movie) => movie.isArchive)) {
     let renderTemplateedMovieCount = MOVIES_STEP;
 
     // Кнопка "Показать больше"
-    const loadMoreButton = new ShowMoreButton();
+    const loadMoreButton = new MoreMoviesButtonView();
 
     render(siteMoviesBoxElement, loadMoreButton, RenderPosition.BEFOREEND);
 
@@ -122,4 +122,4 @@ if (movies.every((movie) => movie.isArchive)) {
 // Статистика в footer
 const siteFooterElement = document.querySelector(`.footer`);
 const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__statistics`);
-render(siteStatisticsFooterElement, new StatisticsFooter(statisticsFooter), RenderPosition.BEFOREEND);
+render(siteStatisticsFooterElement, new StatisticsFooterView(statisticsFooter), RenderPosition.BEFOREEND);

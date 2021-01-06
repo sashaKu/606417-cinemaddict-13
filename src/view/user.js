@@ -10,7 +10,7 @@ const createUserTemplate = (user) => {
 </section>`;
 };
 
-export default class User extends AbstractView {
+export default class UserView extends AbstractView {
   constructor(user) {
     super();
     this._user = user;
