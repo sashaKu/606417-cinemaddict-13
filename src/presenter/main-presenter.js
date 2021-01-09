@@ -16,12 +16,18 @@ export default class MainPresenter {
   constructor(bodyContainer, mainContainer) {
     this._bodyContainer = bodyContainer;
     this._mainContainer = mainContainer;
+    this._renderedMoviesStep = MOVIES_STEP;
 
     this._mainContentComponent = new MainContentView();
     this._movieListComponent = new MovieListView();
     this._movieListEmptyComponent = new MovieListEmptyView();
     this._moreMoviesButtonComponent = new MoreMoviesButtonView();
-    this._commentComponent = new CommentView(this._comment);
+
+    this._handleMoreMoviesButtonClick = this._handleMoreMoviesButtonClick.bind(this);
+
+    this._handleOpenCardClick = this._handleOpenCardClick.bind(this);
+    this._handleCloseCardClick = this._handleCloseCardClick.bind(this);
+    this._handleCloseCardescKeyDown = this._handleCloseCardescKeyDown.bind(this);
   }
 
   init(sort, comment, movies, filter, user) {
@@ -50,80 +56,84 @@ export default class MainPresenter {
   }
 
   _renderMovieList() {
-    if (this._movies.every((movie) => movie.isArchive)) {
-      // Заголовок, когда фильмов нет
-      this._renderMovieListEmpty();
-    } else {
-      // Контейнер с заголовком и списком фильмов
-      render(this._siteMoviesBoxElement, this._movieListComponent, RenderPosition.BEFOREEND);
 
-      // Список фильмов
-      const moviesListContainer = this._siteMoviesBoxElement.querySelector(`.films-list__container`);
+    render(this._siteMoviesBoxElement, this._movieListComponent, RenderPosition.BEFOREEND);
+    // Список фильмов
+    this._moviesListContainer = this._siteMoviesBoxElement.querySelector(`.films-list__container`);
 
-      // popap с детальной информацией по фильму
-      const renderMovieCard = (moviesContainer, movie) => {
-        const movieCard = new MovieView(movie);
-        const movieModal = new MovieModalView(movie);
-        const writeComment = new CommentView(this._comment);
+    for (let i = 0; i < Math.min(this._movies.length, MOVIES_STEP); i++) {
+      this._renderMovieCard(this._moviesListContainer, this._movies[i]);
+    }
 
-        // Функция для события, сценарий - закрытие модального окна
-        const removeAction = () => {
-          this._bodyContainer.querySelector(`.film-details__comments-wrap`).removeChild(writeComment.getElement());
-          this._bodyContainer.removeChild(movieModal.getElement());
-          this._bodyContainer.classList.remove(`hide-overflow`);
-          document.removeEventListener(`keydown`, onEscKeyDown);
-        };
-        // Событие по ESC
-        const onEscKeyDown = (evt) => {
-          if (evt.key === `Escape` || evt.key === `Esc`) {
-            evt.preventDefault();
-            removeAction();
-          }
-        };
-
-        movieModal.setClickHandler(() => {
-          removeAction();
-        });
-        movieCard.setClickHandler(() => {
-          document.addEventListener(`keydown`, onEscKeyDown);
-          this._bodyContainer.appendChild(movieModal.getElement());
-          this._bodyContainer.classList.add(`hide-overflow`);
-          // Написать комментарии к фильму
-          this._bodyContainer.querySelector(`.film-details__comments-wrap`).appendChild(writeComment.getElement());
-        });
-
-        render(moviesContainer, movieCard, RenderPosition.BEFOREEND);
-      };
-
-      for (let i = 0; i < Math.min(this._movies.length, MOVIES_STEP); i++) {
-        renderMovieCard(moviesListContainer, this._movies[i]);
-      }
-
-      if (this._movies.length > MOVIES_STEP) {
-        let renderTemplateedMovieCount = MOVIES_STEP;
-
-        // Кнопка "Показать больше"
-        render(this._siteMoviesBoxElement, this._moreMoviesButtonComponent, RenderPosition.BEFOREEND);
-
-        this._moreMoviesButtonComponent.setClickHandler(() => {
-
-          this._movies
-            .slice(renderTemplateedMovieCount, renderTemplateedMovieCount + MOVIES_STEP)
-            .forEach((movie) => renderMovieCard(moviesListContainer, movie));
-
-          renderTemplateedMovieCount += MOVIES_STEP;
-
-          if (renderTemplateedMovieCount >= this._movies.length) {
-            this._moreMoviesButtonComponent.getElement().remove();
-          }
-        });
-      }
+    if (this._movies.length > MOVIES_STEP) {
+      // Кнопка "Показать больше"
+      this._renderMoreMoviesButton();
     }
   }
 
   _renderMovieListEmpty() {
-
+    // Заголовок, когда фильмов нет
     render(this._siteMoviesBoxElement, this._movieListEmptyComponent, RenderPosition.BEFOREEND);
+  }
+
+  _handleMoreMoviesButtonClick() {
+    this._movies
+      .slice(this._renderedMoviesStep, this._renderedMoviesStep + MOVIES_STEP)
+      .forEach((movie) => this._renderMovieCard(this._moviesListContainer, movie));
+
+    this._renderedMoviesStep += MOVIES_STEP;
+
+    if (this._renderedMoviesStep >= this._movies.length) {
+      this._moreMoviesButtonComponent.getElement().remove();
+    }
+  }
+
+  _renderMoreMoviesButton() {
+    // Кнопка "Показать больше"
+    render(this._siteMoviesBoxElement, this._moreMoviesButtonComponent, RenderPosition.BEFOREEND);
+
+    this._moreMoviesButtonComponent.setClickHandler(this._handleMoreMoviesButtonClick);
+  }
+
+  _renderMovieCard(moviesContainer, movie) {
+    // popap с детальной информацией по фильму
+    this._movieCard = new MovieView(movie);
+    this._movieModal = new MovieModalView(movie);
+    this._writeComment = new CommentView(this._comment);
+
+    this._movieModal.setClickHandler(this._handleCloseCardClick);
+
+    this._movieCard.setClickHandler(this._handleOpenCardClick);
+
+    render(moviesContainer, this._movieCard, RenderPosition.BEFOREEND);
+  }
+
+  _closeMovieCard() {
+  // Сценарий - закрытие модального окна
+    this._bodyContainer.querySelector(`.film-details__comments-wrap`).removeChild(this._writeComment.getElement());
+    this._bodyContainer.removeChild(this._movieModal.getElement());
+    this._bodyContainer.classList.remove(`hide-overflow`);
+    document.removeEventListener(`keydown`, this._handleCloseCardescKeyDown);
+  }
+
+  _handleCloseCardescKeyDown(evt) {
+  // Событие по ESC
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      this._closeMovieCard();
+    }
+  }
+
+  _handleCloseCardClick() {
+    this._closeMovieCard();
+  }
+
+  _handleOpenCardClick() {
+    document.addEventListener(`keydown`, this._handleCloseCardescKeyDown);
+    this._bodyContainer.appendChild(this._movieModal.getElement());
+    this._bodyContainer.classList.add(`hide-overflow`);
+    // Написать комментарии к фильму
+    this._bodyContainer.querySelector(`.film-details__comments-wrap`).appendChild(this._writeComment.getElement());
   }
 
   _renderSetContent() {
@@ -135,7 +145,13 @@ export default class MainPresenter {
 
     this._siteMoviesBoxElement = this._mainContainer.querySelector(`.films`);
 
-    this._renderMovieList();
+    if (this._movies.every((movie) => movie.isArchive)) {
+      // Заголовок, когда фильмов нет
+      this._renderMovieListEmpty();
+    } else {
+      // Контейнер с заголовком и списком фильмов
+      this._renderMovieList();
+    }
   }
 }
 
