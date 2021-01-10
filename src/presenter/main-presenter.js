@@ -28,6 +28,9 @@ export default class MainPresenter {
     this._handleOpenCardClick = this._handleOpenCardClick.bind(this);
     this._handleCloseCardClick = this._handleCloseCardClick.bind(this);
     this._handleCloseCardescKeyDown = this._handleCloseCardescKeyDown.bind(this);
+    this._handleControlAddToWatchListClick = this._handleControlAddToWatchListClick.bind(this);
+    this._handleControlMarkAsWatchedClick = this._handleControlMarkAsWatchedClick.bind(this);
+    this._handleControlAddToFavoriteClick = this._handleControlAddToFavoriteClick.bind(this);
   }
 
   init(sort, comment, movies, filter, user) {
@@ -103,6 +106,9 @@ export default class MainPresenter {
 
     this._movieModal.setClickHandler(this._handleCloseCardClick);
 
+    this._movieCard.setClickControlAddToWatchList(this._handleControlAddToWatchListClick);
+    this._movieCard.setClickControlMarkAsWatched(this._handleControlMarkAsWatchedClick);
+    this._movieCard.setClickControlAddToFavorite(this._handleControlAddToFavoriteClick);
     this._movieCard.setClickHandler(this._handleOpenCardClick);
 
     render(moviesContainer, this._movieCard, RenderPosition.BEFOREEND);
@@ -134,6 +140,18 @@ export default class MainPresenter {
     this._bodyContainer.classList.add(`hide-overflow`);
     // Написать комментарии к фильму
     this._bodyContainer.querySelector(`.film-details__comments-wrap`).appendChild(this._writeComment.getElement());
+  }
+
+  _handleControlAddToWatchListClick() {
+    console.log(`Click WatchList`);
+  }
+
+  _handleControlMarkAsWatchedClick() {
+    console.log(`Click Watched`);
+  }
+
+  _handleControlAddToFavoriteClick() {
+    console.log(`Click Favorite`);
   }
 
   _renderSetContent() {

@@ -33,3 +33,4 @@ const siteStatisticsFooterElement = siteFooterElement.querySelector(`.footer__st
 render(siteStatisticsFooterElement, new StatisticsFooterView(statisticsFooter), RenderPosition.BEFOREEND);
 
 presenter.init(sort, comment, movies, filter, user);
+
