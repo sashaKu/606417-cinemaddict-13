@@ -119,6 +119,9 @@ export default class MovieModalView extends AbstractView {
     this._movie = movie;
 
     this._clickHandler = this._clickHandler.bind(this);
+    this._clickHandlerControlAddToWatchList = this._clickHandlerControlAddToWatchList.bind(this);
+    this._clickHandlerControlMarkAsWatched = this._clickHandlerControlMarkAsWatched.bind(this);
+    this._clickHandlerControlAddToFavorite = this._clickHandlerControlAddToFavorite.bind(this);
   }
 
   getTemplate() {
@@ -135,5 +138,38 @@ export default class MovieModalView extends AbstractView {
   setClickHandler(callback) {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
+  }
+
+  _clickHandlerControlAddToWatchList(evt) {
+    evt.preventDefault();
+
+    this._callback.clickAddToWatchList();
+  }
+
+  _clickHandlerControlMarkAsWatched(evt) {
+    evt.preventDefault();
+
+    this._callback.clickMarkAsWatched();
+  }
+
+  _clickHandlerControlAddToFavorite(evt) {
+    evt.preventDefault();
+
+    this._callback.clickAddToFavorite();
+  }
+
+  setClickControlAddToWatchList(callback) {
+    this._callback.clickAddToWatchList = callback;
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, this._clickHandlerControlAddToWatchList);
+  }
+
+  setClickControlMarkAsWatched(callback) {
+    this._callback.clickMarkAsWatched = callback;
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, this._clickHandlerControlMarkAsWatched);
+  }
+
+  setClickControlAddToFavorite(callback) {
+    this._callback.clickAddToFavorite = callback;
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, this._clickHandlerControlAddToFavorite);
   }
 }

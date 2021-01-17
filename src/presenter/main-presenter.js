@@ -104,34 +104,33 @@ export default class MainPresenter {
     this._movieModal = new MovieModalView(movie);
     this._writeComment = new CommentView(this._comment);
 
-    this._movieModal.setClickHandler(this._handleCloseCardClick);
-
     this._movieCard.setClickControlAddToWatchList(this._handleControlAddToWatchListClick);
     this._movieCard.setClickControlMarkAsWatched(this._handleControlMarkAsWatchedClick);
     this._movieCard.setClickControlAddToFavorite(this._handleControlAddToFavoriteClick);
     this._movieCard.setClickHandler(this._handleOpenCardClick);
 
-    render(moviesContainer, this._movieCard, RenderPosition.BEFOREEND);
-  }
+    this._movieModal.setClickControlAddToWatchList(this._handleControlAddToWatchListClick);
+    this._movieModal.setClickControlMarkAsWatched(this._handleControlMarkAsWatchedClick);
+    this._movieModal.setClickControlAddToFavorite(this._handleControlAddToFavoriteClick);
+    this._movieModal.setClickHandler(this._handleCloseCardClick);
 
-  _closeMovieCard() {
-  // Сценарий - закрытие модального окна
-    this._bodyContainer.querySelector(`.film-details__comments-wrap`).removeChild(this._writeComment.getElement());
-    this._bodyContainer.removeChild(this._movieModal.getElement());
-    this._bodyContainer.classList.remove(`hide-overflow`);
-    document.removeEventListener(`keydown`, this._handleCloseCardescKeyDown);
+    render(moviesContainer, this._movieCard, RenderPosition.BEFOREEND);
   }
 
   _handleCloseCardescKeyDown(evt) {
   // Событие по ESC
     if (evt.key === `Escape` || evt.key === `Esc`) {
       evt.preventDefault();
-      this._closeMovieCard();
+      this._handleCloseCardClick();
     }
   }
 
   _handleCloseCardClick() {
-    this._closeMovieCard();
+    // Сценарий - закрытие модального окна
+    this._bodyContainer.querySelector(`.film-details__comments-wrap`).removeChild(this._writeComment.getElement());
+    this._bodyContainer.removeChild(this._movieModal.getElement());
+    this._bodyContainer.classList.remove(`hide-overflow`);
+    document.removeEventListener(`keydown`, this._handleCloseCardescKeyDown);
   }
 
   _handleOpenCardClick() {
@@ -143,15 +142,12 @@ export default class MainPresenter {
   }
 
   _handleControlAddToWatchListClick() {
-    console.log(`Click WatchList`);
   }
 
   _handleControlMarkAsWatchedClick() {
-    console.log(`Click Watched`);
   }
 
   _handleControlAddToFavoriteClick() {
-    console.log(`Click Favorite`);
   }
 
   _renderSetContent() {
